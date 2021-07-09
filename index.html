@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine JS Movie Search</title>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.1/dist/alpine.min.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+
+</head>
+
+<body>
+    <div class="main" x-data="init()">
+        <h1 class="font-xxlarge">Movie search in Alpine.js</h1>
+        <div class="searchArea">
+            <input class="inputText" type="text" placeholder="Type to search a fact" x-model="q" />
+            <button class="bg-default" @click="search()">Search</button>
+        </div>
+        <div>
+            <template x-for="result in results">
+                <div class="movieCard">
+                    <div>
+                        <img x-bind:src="result.Poster" />
+                    </div>
+                    <div>
+                        <div class="movieDetailItem">
+                            <span style="padding-right: 5px">Title:</span><span><b x-text="result.Title">Man of
+                                    Steel</b></span>
+                        </div>
+                        <div class="movieDetailItem">
+                            <span style="padding-right: 5px">Year:</span><span><b x-text="result.Year">2008</b></span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <script>
+        function init() {
+            return {
+                results: [],
+                q: "",
+                search: function () {
+                    fetch(
+                        "http://www.omdbapi.com/?&apikey=e1a73560&s=" +
+                        this.q +
+                        "&type=movie"
+                    )
+                        .then((response) => response.json())
+                        .then((response) => (this.results = response.Search))
+                        .catch((err) => console.log(err));
+                },
+            };
+        }
+    </script>
+</body>
+
+</html>
