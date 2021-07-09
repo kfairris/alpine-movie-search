@@ -42,16 +42,16 @@
             return {
                 results: [],
                 q: "",
-                search: function () {
+                search: () => {
                     fetch(
-                        "http://www.omdbapi.com/?&apikey=e1a73560&s=" +
+                        "http://www.omdbapi.com/?&apikey=afa7dc5a&t=" +
                         this.q +
                         "&type=movie"
                     )
                         .then((response) => response.json())
                         .then((response) => (this.results = response.Search))
                         .catch((err) => console.log(err));
-                },
+                }
             };
         }
     </script>
